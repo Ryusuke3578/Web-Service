@@ -1,0 +1,72 @@
+<%= stylesheet_link_tag 'show', :media => "all" %>
+<h1>ユーザー</h1>
+
+<div class= "photo">
+  <%= image_tag @users.image_url, size: "250x200" if @users.image? %>
+  <%= image_tag "https://1.bp.blogspot.com/-D2I7Z7-HLGU/Xlyf7OYUi8I/AAAAAAABXq4/jZ0035aDGiE5dP3WiYhlSqhhMgGy8p7zACNcBGAsYHQ/s1600/no_image_square.jpg", size: "250x200" unless @users.image? %>
+</div>
+
+<div class="profile">
+  <p>名前 : <%= @users.name %></p>
+  <p>メールアドレス : <%= @users.email %></p>
+  <p>プロフィール : <%= @users.profile %></p>
+</div>
+
+<div class="hennsyuu">
+<% if current_user.id == @users.id %>
+  <%= link_to "編集する", edit_user_registration_path %>
+<% end %>
+</div>
+<br>
+<br>
+<div class="toukou">
+<h2>投稿一覧</h2>
+<% @users.tweets.each do |t| %>
+  <%= t.user.name %>
+  <%= link_to t.body, tweet_path(t.id) %>
+<% end %>
+<br>
+<br>
+
+<h2>いいねした投稿一覧</h2>
+<% @users.liked_tweets.each do |t| %>
+  <%= t.user.name %>
+  <%= link_to t.body, tweet_path(t.id) %>
+<% end %>
+<br>
+<br>
+<% if @users.id == current_user.id %>
+
+<% else %>
+  <% if @isRoom == true %>
+    <p><a href="/rooms/<%= @roomId %>">チャットへ</a>
+  <% else %>
+    <%= form_for @room do |f| %>
+      <%= fields_for @entry do |e| %>
+        <%= e.hidden_field :user_id, :value=> @users.id %>
+      <% end %>
+      <%= f.submit "チャットを始める" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="itiran">
+  <%= link_to "ユーザー一覧",  users_path  %>
+</div>
+
+
+<br>
+<br>
+<br>
+<div class="tweetitiran">
+  <%= link_to "Tweet一覧に戻る", tweets_path %>
+<br>
+
+<%= button_to "ログアウト", destroy_user_session_path, :method => :delete %>
+</div>
+</div>
+
+
+  
+
+

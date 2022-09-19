@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+  <head>
+    <title>時間効率化サイト</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
+    
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%# javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+
+  <header>
+      <h1><%= link_to "Reduce waste and efficiently", tweets_path %></h1>
+      <div class="header-list">
+  
+        <% if user_signed_in? %>
+        <li><%= link_to "新規投稿",new_tweet_path %></li>
+        <li><%= link_to "マイページ", user_path(current_user.id) %></li>
+        <li><%= link_to "DM",users_path %></li>
+        <%= button_to "ログアウト", destroy_user_session_path, :method => :delete %>
+        <% else %>
+        <li><a href="/users/tweets">ログイン</a></li>
+        <li><%= link_to "新規登録",new_user_registration_path %></li>
+        <% end %>
+
+      </div>
+    </header>
+      <%= yield %>
+    <br>
+    <br>
+    <br>
+    <br>
+    <footer>
+        <p>Copyright © Ryusuke Satake All Rights Reserved.</p>
+    </footer>
+
